@@ -1,0 +1,2 @@
+UN System implementation follow-up to Rio+20
+The United Nations Secretary-General, along with United Nations system organizations, developed a framework for the follow up to Rio+20 by the United Nations. The framework focuses on the mandates of Rio+20 specifically directed at the United Nations system. This implementation framework serves as an accountability framework as well as a working tool to promote and monitor progress. This framework is continuously updated as we progress in our work and as new initiatives are launched.
