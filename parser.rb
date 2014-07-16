@@ -17,14 +17,24 @@ require 'pry'
 
 #unaction67_long
 
-page = Nokogiri::HTML(open('http://sustainabledevelopment.un.org/'+entity_links[0]+'#un'))
+def doc(html)
+  Nokogiri::HTML(open('html'))
+end
 
-def entities(html)
-  doc = Nokogiri::HTML(open('html'))
-  all_links = doc.css('.frontLink')
-  entity_names = all_links.inject([]) { |names, link| names << link.text.strip }
-  entity_links = all_links.inject([]) { |links, link| links << link['href'] }
-  entities = entity_names.zip(entity_links)
+def all_links(doc)
+  doc.css('.frontLink')
+end
+
+def entity_names(doc)
+  all_links(doc).inject([]) { |names, link| names << link.text.strip }
+end
+
+def entity_links(doc)
+  all_links(doc).inject([]) { |links, link| links << link['href'] }
+end
+
+def entities(doc)
+  entities = entity_names(doc).zip(entity_links(doc))
 end
 
 def paragraph_nums(page)
@@ -37,6 +47,7 @@ def paragraph_nums(page)
   paragraph_nums.uniq.sort
 end
 
+page = Nokogiri::HTML(open('http://sustainabledevelopment.un.org/'+entity_links[0]+'#un'))
 p paragraph_nums(page)
 
 
