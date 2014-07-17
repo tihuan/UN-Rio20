@@ -18,22 +18,30 @@ def entity_links(doc)
   all_links(doc).inject([]) { |links, link| links << link['href'] }
 end
 
+def entity_page(link)
+  Nokogiri::HTML(open('http://sustainabledevelopment.un.org/'+link+'#un'))
+end
+
 def entities(doc)
   entities = entity_names(doc).zip(entity_links(doc))
 end
 
-def paragraphs(entity_page)
-  entity_page.xpath('//b[contains(text(), "In support of Rio+20 outcome paragraph")]')
+def strip(input)
+  input.gsub(/[\r\n]/,'').strip
 end
 
 def paragraph_num(paragraph)
-  formatted_paragraph = paragraph.text.strip.gsub(/[\r\n]/,'').strip
+  formatted_paragraph = strip(paragraph.text.strip)
   formatted_paragraph[/(?<=paragraph )\d*/].to_i
 end
 
 def paragraph_desc(paragraph)
-  formatted_paragraph = paragraph.parent.text.strip.gsub(/[\r\n]/,'').strip
-  paragraph_desc = formatted_paragraph[/(?<=-  ).*/]
+  formatted_paragraph = strip(paragraph.parent.text.strip)
+  formatted_paragraph[/(?<=-  ).*/]
+end
+
+def paragraphs(entity_page)
+  entity_page.xpath('//b[contains(text(), "In support of Rio+20 outcome paragraph")]')
 end
 
 def all_paragraph_nums(entity_page)
@@ -50,10 +58,6 @@ end
 
 def uniq_sort(input)
   input.uniq.sort
-end
-
-def entity_page(link)
-  Nokogiri::HTML(open('http://sustainabledevelopment.un.org/'+link+'#un'))
 end
 
 def print_entity_paragraph_nums(doc)
@@ -88,22 +92,20 @@ def all_entity_name_paragraph_nums(doc)
   end
 end
 
-doc = doc('http://sustainabledevelopment.un.org/index.php?menu=1442')
-# print_entity_paragraph_nums(doc)
-# p all_entity_paragraph_num_desc(doc).count
-# p all_entity_paragraph_num_desc(doc)
-# p all_entity_name_paragraph_nums(doc).count
-# p all_entity_name_paragraph_nums(doc)
-
-all_entities = all_entity_name_paragraph_nums(doc)
-all_entity_paragraph_num_desc(doc).each do |num, desc|
-  p "Paragraph #{num}"
-  p desc
-  all_entities.each do |name, nums|
-    p name if nums.include?(num)
+def print_paragraph_num_desc_entities(doc)
+  all_entities = all_entity_name_paragraph_nums(doc)
+  all_entity_paragraph_num_desc(doc).each do |num, desc|
+    puts "Paragraph #{num}"
+    puts desc
+    all_entities.each do |name, nums|
+      puts name if nums.include?(num)
+    end
+    puts ''
   end
-  p ''
 end
+
+doc = doc('http://sustainabledevelopment.un.org/index.php?menu=1442')
+print_paragraph_num_desc_entities(doc)
 
 
 
