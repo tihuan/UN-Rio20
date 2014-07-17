@@ -92,14 +92,18 @@ doc = doc('http://sustainabledevelopment.un.org/index.php?menu=1442')
 # print_entity_paragraph_nums(doc)
 # p all_entity_paragraph_num_desc(doc).count
 # p all_entity_paragraph_num_desc(doc)
-p all_entity_name_paragraph_nums(doc).count
-p all_entity_name_paragraph_nums(doc)
+# p all_entity_name_paragraph_nums(doc).count
+# p all_entity_name_paragraph_nums(doc)
 
-# all_entity_paragraph_num_desc.each do |num, desc|
-#   p 'Paragraph ' + num
-#   p desc
-
-# end
+all_entities = all_entity_name_paragraph_nums(doc)
+all_entity_paragraph_num_desc(doc).each do |num, desc|
+  p "Paragraph #{num}"
+  p desc
+  all_entities.each do |name, nums|
+    p name if nums.include?(num)
+  end
+  p ''
+end
 
 
 
