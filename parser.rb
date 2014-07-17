@@ -110,16 +110,10 @@ print_paragraph_num_desc_entities(doc)
 
 
 ### Driver Code ###
-doc = Nokogiri::HTML(open('http://sustainabledevelopment.un.org/index.php?menu=1442'))
-entity_page = Nokogiri::HTML(open('http://sustainabledevelopment.un.org/'+entity_links(doc)[0]+'#un'))
+# doc = doc('http://sustainabledevelopment.un.org/index.php?menu=1442')
+# entity_page = Nokogiri::HTML(open('http://sustainabledevelopment.un.org/'+entity_links(doc)[0]+'#un'))
+# paragraph = paragraphs(entity_page).first
 # p paragraph_nums(entity_page) == [24, 38, 47, 54, 62, 66, 68, 78, 84, 91, 93, 100, 106, 108, 109, 133, 137, 154, 156, 179, 182, 185, 186, 243, 244, 248, 251, 280]
 # p paragraph_desc(entity_page) == "Establish a universal intergovernmental high level political forum (HLPF), building on the strengths, experiences, resources and inclusive participation modalities of the Commission on Sustainable Development, and subsequently replacing the Commission."
-# p paragraphs(entity_page)
-
-paragraph = paragraphs(entity_page).first
-# p paragraph_desc(paragraph)
 # p all_entity_paragraph_num_desc(doc).count == 72
 # p all_entity_name_paragraph_nums(doc).count == 51
-
-
-
