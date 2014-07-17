@@ -38,12 +38,18 @@ end
 
 def all_paragraph_nums(entity_page)
   paragraphs(entity_page).inject([]) do |paragraph_nums, paragraph|
+    paragraph_nums << paragraph_num(paragraph)
+  end
+end
+
+def all_paragraph_nums_desc(entity_page)
+  paragraphs(entity_page).inject([]) do |paragraph_nums, paragraph|
     paragraph_nums << [paragraph_num(paragraph), paragraph_desc(paragraph)]
   end
 end
 
-def paragraph_nums(entity_page)
-  all_paragraph_nums(entity_page).uniq.sort
+def uniq_sort(input)
+  input.uniq.sort
 end
 
 def entity_page(link)
@@ -53,23 +59,49 @@ end
 def print_entity_paragraph_nums(doc)
   entities(doc).each do |name, link|
     puts name
-    puts paragraph_nums(entity_page(link))
+    puts uniq_sort(all_paragraph_nums(entity_page(link)))
     puts ""
   end
 end
 
-def all_entity_paragraph_nums(doc)
+def print_entity_paragraph_nums_desc(doc)
+  entities(doc).each do |name, link|
+    puts name
+    puts uniq_sort(all_paragraph_nums_desc(entity_page(link)))
+    puts ""
+  end
+end
+
+def all_entity_paragraph_num_desc(doc)
   all_nums = []
   entities(doc).each do |_, link|
-    all_nums << paragraph_nums(entity_page(link))
+    all_nums << uniq_sort(all_paragraph_nums_desc(entity_page(link)))
   end
-  all_nums.flatten(1).uniq.sort
+  uniq_sort(all_nums.flatten(1))
+end
+
+def all_entity_name_paragraph_nums(doc)
+  entities(doc).inject([]) do |name_nums, name_link|
+    name = name_link[0]
+    link = name_link[1]
+    name_nums << [name, uniq_sort(all_paragraph_nums(entity_page(link)))]
+  end
 end
 
 doc = doc('http://sustainabledevelopment.un.org/index.php?menu=1442')
 # print_entity_paragraph_nums(doc)
-p all_entity_paragraph_nums(doc).count
-p all_entity_paragraph_nums(doc)
+# p all_entity_paragraph_num_desc(doc).count
+# p all_entity_paragraph_num_desc(doc)
+p all_entity_name_paragraph_nums(doc).count
+p all_entity_name_paragraph_nums(doc)
+
+# all_entity_paragraph_num_desc.each do |num, desc|
+#   p 'Paragraph ' + num
+#   p desc
+
+# end
+
+
 
 ### Driver Code ###
 doc = Nokogiri::HTML(open('http://sustainabledevelopment.un.org/index.php?menu=1442'))
@@ -80,7 +112,8 @@ entity_page = Nokogiri::HTML(open('http://sustainabledevelopment.un.org/'+entity
 
 paragraph = paragraphs(entity_page).first
 # p paragraph_desc(paragraph)
-
+# p all_entity_paragraph_num_desc(doc).count == 72
+# p all_entity_name_paragraph_nums(doc).count == 51
 
 
 
