@@ -104,11 +104,6 @@ def print_paragraph_num_desc_entities(doc)
   end
 end
 
-doc = doc('http://sustainabledevelopment.un.org/index.php?menu=1442')
-print_paragraph_num_desc_entities(doc)
-
-
-
 ### Driver Code ###
 # doc = doc('http://sustainabledevelopment.un.org/index.php?menu=1442')
 # entity_page = Nokogiri::HTML(open('http://sustainabledevelopment.un.org/'+entity_links(doc)[0]+'#un'))
