@@ -26,18 +26,16 @@ def entities(doc)
   entities = entity_names(doc).zip(entity_links(doc))
 end
 
-def strip(input)
+def formatted_paragraph(input)
   input.gsub(/[\r\n]/,'').strip
 end
 
 def paragraph_num(paragraph)
-  formatted_paragraph = strip(paragraph.text.strip)
-  formatted_paragraph[/(?<=paragraph )\d*/].to_i
+  formatted_paragraph(paragraph.text.strip)[/(?<=paragraph )\d*/].to_i
 end
 
 def paragraph_desc(paragraph)
-  formatted_paragraph = strip(paragraph.parent.text.strip)
-  formatted_paragraph[/(?<=-  ).*/]
+  formatted_paragraph(paragraph.parent.text.strip)[/(?<=-  ).*/]
 end
 
 def paragraphs(entity_page)
